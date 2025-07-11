@@ -1,4 +1,5 @@
 import { Client, GatewayIntentBits, Message, EmbedBuilder } from "discord.js";
+import http from "http";
 
 const token = process.env.DISCORD_TOKEN;
 const staffRoleName = process.env.STAFF_ROLE_NAME || "Staff";
@@ -34,6 +35,16 @@ client.once("ready", () => {
   console.log(`✅ Logged in as ${client.user?.tag}`);
 });
 
+// Minimal webserver to keep Render happy on port 8080
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { "Content-Type": "text/plain" });
+  res.end("Bot is running.\n");
+});
+const PORT = process.env.PORT || 8080;
+server.listen(PORT, () => {
+  console.log(`🌐 Webserver running on port ${PORT}`);
+});
+
 client.on("messageCreate", async (message: Message) => {
   if (message.author.bot || !message.guild) return;
 
@@ -48,7 +59,6 @@ client.on("messageCreate", async (message: Message) => {
     if (!hasStaffRole) return message.reply("❌ You don't have permission to use this command.");
     if (!checkoutMap.has(message.author.id)) return message.reply("✅ You are already checked in.");
 
-    const checkInTime = Math.floor(Date.now() / 1000);
     checkoutMap.delete(message.author.id);
 
     const pings = pingLog.get(message.author.id);
@@ -56,7 +66,6 @@ client.on("messageCreate", async (message: Message) => {
 
     await message.channel.send(`✅ **${message.author.username}** has checked in.`);
 
-    // If they had pings while clocked out, show them in an embed
     if (pings && pings.length > 0) {
       const embed = new EmbedBuilder()
         .setTitle(`📨 Pings While You Were Clocked Out`)
