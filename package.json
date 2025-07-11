@@ -2,16 +2,19 @@
   "name": "staff-checkin-bot",
   "version": "1.0.0",
   "description": "A Discord bot for staff check-ins and check-outs with ping logging",
-  "main": "dist/bot.js",
+  "main": "bot.ts",
+  "type": "module",
   "scripts": {
-    "start": "node dist/bot.js",
-    "build": "tsc"
+    "dev": "npx ts-node bot.ts",
+    "build": "tsc",
+    "start": "node dist/bot.js"
   },
   "dependencies": {
     "discord.js": "^14.15.1"
   },
   "devDependencies": {
     "@types/node": "^20.11.30",
+    "ts-node": "^10.9.2",
     "typescript": "^5.5.2"
   },
   "engines": {
