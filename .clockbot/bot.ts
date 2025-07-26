@@ -64,7 +64,7 @@ client.on("messageCreate", async (message: Message) => {
     const pings = pingLog.get(message.author.id);
     pingLog.delete(message.author.id);
 
-    await message.channel.send(`<@&1385903655722418276> ✅ **${message.author.username}** has checked in.`);
+    await message.channel.send(`<@&1277446711966695484> ✅ **${message.author.username}** has checked in.`);
 
     if (pings && pings.length > 0) {
       const embed = new EmbedBuilder()
@@ -98,7 +98,7 @@ client.on("messageCreate", async (message: Message) => {
     if (checkoutMap.has(message.author.id)) return message.reply("❌ You are already checked out.");
 
     checkoutMap.set(message.author.id, Math.floor(Date.now() / 1000));
-    return message.channel.send(`<@&1385903655722418276> 🕒 **${message.author.username}** has checked out. Have a good day or night!`);
+    return message.channel.send(`<@&1277446711966695484> 🕒 **${message.author.username}** has checked out. Have a good day or night!`);
   }
 
   // Ping detection for clocked out users
